@@ -1,24 +1,40 @@
 using Godot;
 using System;
+using System.Diagnostics;
 
 public partial class PlayerCamera : Node3D
 {
-    public const float sensitivity = 1.0f;
+    public const float sensitivity = 2.0f;
 
+    [Export]
+    public Node3D Player;
 
-    private Camera3D Camera;
-	private Node3D CameraYaw;
-	private Node3D CameraPitch;
+    [Export]
+    public Camera3D Camera;
 
-	public override void _Ready()
-	{
-        Camera = GetNode<Camera3D>("CameraYaw/CameraPitch/Camera3D");
-        CameraYaw = GetNode<Node3D>("CameraYaw"); 
-        CameraPitch = GetNode<Node3D>("CameraYaw/CameraPitch");
+    [Export]
+    public float Distance = 5.0f;
+
+    public float TargetDistance;
+
+    [Export]
+    public float Height = 1.0f;
+
+    [Export]
+    public float TransitionSpeed;
+
+    public float TargetHeight;
+
+    private float _yaw;
+    private float _pitch;
+
+    public override void _Ready()
+    {
+        TargetDistance = Distance;
+        TargetHeight = Height;
     }
 
-
-	public override void _Process(double delta)
+    public override void _Process(double delta)
 	{
         Vector2 cameraInput = Input.GetVector(
             "camera_left",
@@ -27,17 +43,25 @@ public partial class PlayerCamera : Node3D
             "camera_down"
         );
 
-       CameraYaw.RotateY(-cameraInput.X * sensitivity * (float)delta);
-       CameraPitch.RotateX(-cameraInput.Y * sensitivity * (float)delta);
+        _yaw -= cameraInput.X * sensitivity * (float)delta;
+        _pitch += cameraInput.Y * sensitivity * (float)delta;
 
-        Vector3 rotation = CameraPitch.Rotation;
-
-        rotation.X = Mathf.Clamp(
-            rotation.X,
+        _pitch = Mathf.Clamp(
+            _pitch,
             Mathf.DegToRad(-80.0f),
             Mathf.DegToRad(80.0f)
         );
 
-        CameraPitch.Rotation = rotation;
+        Distance = Mathf.Lerp(Distance, TargetDistance, TransitionSpeed * (float)delta);
+
+        Height = Mathf.Lerp(Height, TargetHeight, TransitionSpeed * (float)delta);
+
+        Vector3 target = Player.GlobalPosition + Vector3.Up * Height;
+
+        Vector3 orbitDirection = new Vector3(Mathf.Sin(_yaw) * Mathf.Cos(_pitch), Mathf.Sin(_pitch), Mathf.Cos(_yaw) * Mathf.Cos(_pitch));
+
+        Camera.GlobalPosition = target + orbitDirection * Distance;
+
+        Camera.LookAt(target, Vector3.Up);
     }
 }

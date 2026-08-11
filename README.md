@@ -1,17 +1,26 @@
 # Platformer Prototype
 
-A 3D platformer character-controller prototype built in Godot with C#.
+A 3D platformer gameplay prototype built in Godot with C#.
 
-The project focuses on gameplay programming and movement feel, with custom implementation of character locomotion, camera-relative movement, jumping, animation control, and platforming mechanics.
+The project focuses on character-controller programming, movement feel, camera behavior, animation integration, and small gameplay experiments.
 
-The goal is to experiment with responsive 3D character controls and progressively add new movement features. Once the controller feels complete, the project will expand into prototyping power-ups and other gameplay ideas.
+The goal is to build responsive 3D platforming mechanics from a gameplay-programming perspective, while iterating on movement parameters and progressively introducing new mechanics and player states.
 
 ## Features
 
--  3D movement and third-person camera controls
+- Camera-relative 3D movement
+- Acceleration and deceleration
+- Smooth character facing
+- Third-person orbit camera
 - Variable-height jumping
 - Jump input buffering
-- Basic locomotion animation state handling
+- Size-changing gameplay power-up
+
+## Current Gameplay Experiment
+
+The current prototype includes a size-changing mechanic that allows the player to smoothly shrink into a much smaller form.
+
+The mechanic is intended to be used for traversal and exploration, such as accessing small passages or entrances that are difficult to notice or impossible to enter at normal size.
 
 ## Credits
 

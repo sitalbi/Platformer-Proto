@@ -11,7 +11,7 @@ public partial class PlayerController : CharacterBody3D
     private float _jumpBufferTimer;
 
     [Export]
-	public Node3D Camera { get; set; }
+	public Camera3D Camera { get; set; }
 
     [Export]
     public Node3D Model { get; set; }
