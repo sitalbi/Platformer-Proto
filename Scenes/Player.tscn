@@ -12,9 +12,11 @@ height = 1.4088745
 script = ExtResource("1_xhfnw")
 Camera = NodePath("CameraPivot/CameraYaw")
 Model = NodePath("GobotSkin")
+Deceleration = 25.0
 JumpVelocity = 10.0
-jumpGravityMultiplier = 0.7
-fallGravityMultiplier = 2.0
+JumpGravityMultiplier = 1.0
+FallGravityMultiplier = 2.0
+JumpBufferDuration = 0.25
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=594490459]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7117835, 0)

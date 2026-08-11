@@ -11,13 +11,10 @@ enum AnimationState
 public partial class AnimationController : Node
 {
     [Export]
-    public CharacterBody3D Player { get; set; }
+    public PlayerController Player { get; set; }
 
     [Export]
     public Node3D Model { get; set; }
-
-    [Export]
-    public float MaxRunSpeed { get; set; } = 5.0f;
 
     private AnimationState _currentState = AnimationState.Idle;
 
@@ -30,17 +27,15 @@ public partial class AnimationController : Node
     {
         Vector3 velocity = Player.Velocity;
 
-        float horizontalSpeed = new Vector2(velocity.X, velocity.Z).Length();
-
         AnimationState desiredState;
 
         if (Player.IsOnFloor())
         {
-            if (horizontalSpeed > 0.1f)
+            if (Player.HorizontalSpeed > 0.1f)
             {
                 desiredState = AnimationState.Move;
 
-                float blend = Mathf.Clamp(horizontalSpeed / MaxRunSpeed, 0.0f, 1.0f);
+                float blend = Mathf.Clamp(Player.NormalizedHorizontalSpeed, 0.0f, 1.0f);
 
                 Model.Set("walk_run_blending", blend);
             } 

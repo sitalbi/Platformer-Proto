@@ -3,7 +3,6 @@ using System;
 
 public partial class PlayerController : CharacterBody3D
 {
-	public const float Speed = 5.0f;
 	public const float TurnSpeed = 8.0f;
 
 	private float _gravityMultiplier = 1.0f;
@@ -18,17 +17,29 @@ public partial class PlayerController : CharacterBody3D
     public Node3D Model { get; set; }
 
     [Export]
+    public float MaxSpeed = 5.0f;
+
+    [Export]
+    public float Acceleration = 15.0f;
+
+    [Export]
+    public float Deceleration = 15.0f;
+
+    [Export]
     public float JumpVelocity { get; set; }
 
     [Export]
-    public float jumpGravityMultiplier { get; set; }
+    public float JumpGravityMultiplier { get; set; }
     [Export]
-    public float fallGravityMultiplier { get; set; }
+    public float FallGravityMultiplier { get; set; }
     [Export]
     public float JumpBufferDuration { get; set; }
 
+    public float HorizontalSpeed => new Vector2(Velocity.X, Velocity.Z).Length();
+
+    public float NormalizedHorizontalSpeed => Mathf.Clamp(HorizontalSpeed / MaxSpeed, 0.0f, 1.0f);
+
     private Vector2 _inputDir;
-	private bool _canJump;
 
     public override void _Process(double delta)
     {
@@ -64,43 +75,52 @@ public partial class PlayerController : CharacterBody3D
 
 
         Vector3 direction = (Camera.GlobalBasis * new Vector3(_inputDir.X, 0, _inputDir.Y)).Normalized();
-		if (direction != Vector3.Zero)
-		{
-			velocity.X = direction.X * Speed;
-			velocity.Z = direction.Z * Speed;
+        
+        Vector2 horizontalVelocity = new Vector2(velocity.X, velocity.Z);
 
-			// Rotate to face direction
+        Vector2 targetVelocity = new Vector2(direction.X * MaxSpeed, direction.Z * MaxSpeed);
+
+        if (direction != Vector3.Zero)
+        {
+            horizontalVelocity = horizontalVelocity.MoveToward(targetVelocity, Acceleration * (float)delta);
+
             float targetYaw = Mathf.Atan2(direction.X, direction.Z);
 
             Vector3 modelRotation = Model.Rotation;
 
-            modelRotation.Y = Mathf.LerpAngle(modelRotation.Y, targetYaw, TurnSpeed * (float)delta);
+            modelRotation.Y = Mathf.LerpAngle(
+                modelRotation.Y,
+                targetYaw,
+                TurnSpeed * (float)delta
+            );
 
             Model.Rotation = modelRotation;
+        } 
+        else
+        {
+            horizontalVelocity = horizontalVelocity.MoveToward(targetVelocity, Deceleration * (float)delta);
         }
-		else
-		{
-			velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
-			velocity.Z = Mathf.MoveToward(Velocity.Z, 0, Speed);
-		}
+
+        velocity.X = horizontalVelocity.X;
+        velocity.Z = horizontalVelocity.Y;
 
         if (!IsOnFloor())
         {
             Vector3 gravity = GetGravity();
-            if (Velocity.Y > 0.1f)
+            if (velocity.Y > 0.1f)
             {
                 if (_jumpRelease)
                 {
-                    _gravityMultiplier = fallGravityMultiplier;
+                    _gravityMultiplier = FallGravityMultiplier;
                 } 
                 else
                 {
-                    _gravityMultiplier = jumpGravityMultiplier;
+                    _gravityMultiplier = JumpGravityMultiplier;
                 }
             } 
             else
             {
-                _gravityMultiplier = fallGravityMultiplier;
+                _gravityMultiplier = FallGravityMultiplier;
             }
             velocity += gravity * _gravityMultiplier * (float)delta;
         }
