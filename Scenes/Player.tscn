@@ -2,26 +2,23 @@
 
 [ext_resource type="Script" uid="uid://colfj4nwspeux" path="res://Scripts/PlayerController.cs" id="1_xhfnw"]
 [ext_resource type="Script" uid="uid://brm3xw2ishlo8" path="res://Scripts/PlayerCamera.cs" id="2_kyqiw"]
+[ext_resource type="PackedScene" uid="uid://cy36aygvs66pn" path="res://Assets/gdquest_gobot/gobot_skin.tscn" id="3_gntrk"]
+[ext_resource type="Script" uid="uid://b2ic6c4mi2762" path="res://Scripts/AnimationController.cs" id="4_dewec"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0rwas"]
+height = 1.4088745
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r150o"]
-albedo_color = Color(0, 0.7166667, 1, 1)
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_r150o"]
-
-[node name="Player" type="CharacterBody3D" unique_id=1914360714 node_paths=PackedStringArray("Camera")]
+[node name="Player" type="CharacterBody3D" unique_id=1914360714 node_paths=PackedStringArray("Camera", "Model")]
 script = ExtResource("1_xhfnw")
 Camera = NodePath("CameraPivot/CameraYaw")
+Model = NodePath("GobotSkin")
+JumpVelocity = 10.0
+jumpGravityMultiplier = 0.7
+fallGravityMultiplier = 2.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=594490459]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7117835, 0)
 shape = SubResource("CapsuleShape3D_0rwas")
-
-[node name="Node3D" type="Node3D" parent="." unique_id=1487645539]
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D" unique_id=556379942]
-material_override = SubResource("StandardMaterial3D_r150o")
-mesh = SubResource("CapsuleMesh_r150o")
 
 [node name="CameraPivot" type="Node3D" parent="." unique_id=1658368337]
 script = ExtResource("2_kyqiw")
@@ -32,3 +29,11 @@ script = ExtResource("2_kyqiw")
 
 [node name="Camera3D" type="Camera3D" parent="CameraPivot/CameraYaw/CameraPitch" unique_id=1997969538]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.83731437, 3.3693688)
+
+[node name="GobotSkin" parent="." unique_id=387738634 instance=ExtResource("3_gntrk")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
+
+[node name="AnimationController" type="Node" parent="." unique_id=827224165 node_paths=PackedStringArray("Player", "Model")]
+script = ExtResource("4_dewec")
+Player = NodePath("..")
+Model = NodePath("../GobotSkin")

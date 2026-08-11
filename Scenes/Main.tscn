@@ -1,14 +1,21 @@
 [gd_scene format=3 uid="uid://bpmrvciu2q13f"]
 
 [ext_resource type="PackedScene" uid="uid://wkcam2kuolhf" path="res://Scenes/Player.tscn" id="1_glv2v"]
+[ext_resource type="Texture2D" uid="uid://bhbljxno8c5tl" path="res://Assets/Textures/PNG/Green/texture_08.png" id="2_rgh2o"]
+[ext_resource type="Texture2D" uid="uid://bvnt8c8dtk4hm" path="res://Assets/Textures/Vector/texture_08.svg" id="3_kln2b"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r150o"]
-albedo_color = Color(0.39, 0.39, 0.39, 1)
+albedo_texture = ExtResource("2_rgh2o")
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_68pkx"]
+[sub_resource type="BoxMesh" id="BoxMesh_68pkx"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_am7si"]
-size = Vector3(100, 0.1, 100)
+[sub_resource type="BoxShape3D" id="BoxShape3D_idj7w"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_kln2b"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_68pkx"]
+albedo_texture = ExtResource("3_kln2b")
+uv1_scale = Vector3(10, 10, 10)
 
 [sub_resource type="Environment" id="Environment_68pkx"]
 background_mode = 1
@@ -18,18 +25,46 @@ background_color = Color(0.62770736, 0.8564594, 1, 1)
 
 [node name="Player" parent="." unique_id=1914360714 instance=ExtResource("1_glv2v")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.40322495, 1.6694959, 0.25618863)
+JumpVelocity = 8.0
+jumpGravityMultiplier = 1.0
+JumpBufferDuration = 0.25
 
 [node name="Environment" type="Node3D" parent="." unique_id=72519396]
 
-[node name="Ground" type="StaticBody3D" parent="Environment" unique_id=165602655]
+[node name="Cube" type="StaticBody3D" parent="Environment" unique_id=147633952]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 1, -6.701)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/Ground" unique_id=746264066]
-transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 0, 0, 0)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/Cube" unique_id=18003042]
 material_override = SubResource("StandardMaterial3D_r150o")
-mesh = SubResource("PlaneMesh_68pkx")
+mesh = SubResource("BoxMesh_68pkx")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Ground" unique_id=1389553463]
-shape = SubResource("BoxShape3D_am7si")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Cube" unique_id=1408061765]
+shape = SubResource("BoxShape3D_idj7w")
+
+[node name="Cube2" type="StaticBody3D" parent="Environment" unique_id=1095335640]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 6.229778, 1.6, -6.701)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/Cube2" unique_id=359520075]
+material_override = SubResource("StandardMaterial3D_r150o")
+mesh = SubResource("BoxMesh_68pkx")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Cube2" unique_id=1185783039]
+shape = SubResource("BoxShape3D_kln2b")
+
+[node name="Ground" type="CSGBox3D" parent="Environment" unique_id=156641480]
+material_override = SubResource("StandardMaterial3D_68pkx")
+use_collision = true
+size = Vector3(50, 0.1, 50)
+
+[node name="Cube3" type="StaticBody3D" parent="Environment" unique_id=1617606646]
+transform = Transform3D(6, 0, 0, 0, 6, 0, 0, 0, 6, 14.761475, 3, -6.701)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/Cube3" unique_id=2003474058]
+material_override = SubResource("StandardMaterial3D_r150o")
+mesh = SubResource("BoxMesh_68pkx")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Cube3" unique_id=690103957]
+shape = SubResource("BoxShape3D_kln2b")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=100298401]
 transform = Transform3D(1, 0, 0, 0, 0.78372794, 0.62110424, 0, -0.62110424, 0.78372794, 0, 6.220585, 4.999535)
