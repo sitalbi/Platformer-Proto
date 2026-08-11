@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://bpmrvciu2q13f"]
+
+[ext_resource type="PackedScene" uid="uid://wkcam2kuolhf" path="res://Scenes/Player.tscn" id="1_glv2v"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r150o"]
+albedo_color = Color(0.39, 0.39, 0.39, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_68pkx"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_am7si"]
+size = Vector3(100, 0.1, 100)
+
+[sub_resource type="Environment" id="Environment_68pkx"]
+background_mode = 1
+background_color = Color(0.62770736, 0.8564594, 1, 1)
+
+[node name="Main" type="Node3D" unique_id=1120077154]
+
+[node name="Player" parent="." unique_id=1914360714 instance=ExtResource("1_glv2v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.40322495, 1.6694959, 0.25618863)
+
+[node name="Environment" type="Node3D" parent="." unique_id=72519396]
+
+[node name="Ground" type="StaticBody3D" parent="Environment" unique_id=165602655]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/Ground" unique_id=746264066]
+transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_r150o")
+mesh = SubResource("PlaneMesh_68pkx")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Ground" unique_id=1389553463]
+shape = SubResource("BoxShape3D_am7si")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=100298401]
+transform = Transform3D(1, 0, 0, 0, 0.78372794, 0.62110424, 0, -0.62110424, 0.78372794, 0, 6.220585, 4.999535)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1724209839]
+environment = SubResource("Environment_68pkx")

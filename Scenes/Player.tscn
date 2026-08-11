@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://wkcam2kuolhf"]
+
+[ext_resource type="Script" uid="uid://colfj4nwspeux" path="res://Scripts/PlayerController.cs" id="1_xhfnw"]
+[ext_resource type="Script" uid="uid://brm3xw2ishlo8" path="res://Scripts/PlayerCamera.cs" id="2_kyqiw"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0rwas"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r150o"]
+albedo_color = Color(0, 0.7166667, 1, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_r150o"]
+
+[node name="Player" type="CharacterBody3D" unique_id=1914360714 node_paths=PackedStringArray("Camera")]
+script = ExtResource("1_xhfnw")
+Camera = NodePath("CameraPivot/CameraYaw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=594490459]
+shape = SubResource("CapsuleShape3D_0rwas")
+
+[node name="Node3D" type="Node3D" parent="." unique_id=1487645539]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D" unique_id=556379942]
+material_override = SubResource("StandardMaterial3D_r150o")
+mesh = SubResource("CapsuleMesh_r150o")
+
+[node name="CameraPivot" type="Node3D" parent="." unique_id=1658368337]
+script = ExtResource("2_kyqiw")
+
+[node name="CameraYaw" type="Node3D" parent="CameraPivot" unique_id=1873127270]
+
+[node name="CameraPitch" type="Node3D" parent="CameraPivot/CameraYaw" unique_id=1240591370]
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot/CameraYaw/CameraPitch" unique_id=1997969538]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.83731437, 3.3693688)
