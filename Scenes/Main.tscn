@@ -65,7 +65,7 @@ mesh = SubResource("BoxMesh_68pkx")
 shape = SubResource("BoxShape3D_kln2b")
 
 [node name="MiniDoor" type="CSGTorus3D" parent="Environment" unique_id=686020177]
-transform = Transform3D(0.382, 0, 0, 0, -2.1855694e-08, -0.382, 0, 0.5, -1.669775e-08, -4.1176934, 0, -6.985938)
+transform = Transform3D(0.461, 0, 0, 0, -2.6226834e-08, -0.461, 0, 0.6, -2.015095e-08, -4.1176934, 0.0792017, -6.985938)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=100298401]
 transform = Transform3D(1, 0, 0, 0, 0.78372794, 0.62110424, 0, -0.62110424, 0.78372794, 0, 6.220585, 4.999535)

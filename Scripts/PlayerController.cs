@@ -73,9 +73,33 @@ public partial class PlayerController : CharacterBody3D
             _jumpBufferTimer = 0.0f;
         }
 
+        GroundedMovement(ref velocity, delta);
 
-        Vector3 direction = (Camera.GlobalBasis * new Vector3(_inputDir.X, 0, _inputDir.Y)).Normalized();
-        
+        GravityModifier(ref velocity, delta);
+
+        Velocity = velocity;
+		MoveAndSlide();
+	}
+
+	private void Jump(ref Vector3 velocity)
+	{
+        velocity.Y = JumpVelocity;
+    }
+
+
+    private void GroundedMovement(ref Vector3 velocity, double delta)
+    {
+        Vector3 forward = -Camera.GlobalBasis.Z;
+        Vector3 right = Camera.GlobalBasis.X;
+
+        forward.Y = 0;
+        right.Y = 0;
+
+        forward = forward.Normalized();
+        right = right.Normalized();
+
+        Vector3 direction = (right * _inputDir.X + forward * -_inputDir.Y).Normalized();
+
         Vector2 horizontalVelocity = new Vector2(velocity.X, velocity.Z);
 
         Vector2 targetVelocity = new Vector2(direction.X * MaxSpeed, direction.Z * MaxSpeed);
@@ -103,7 +127,10 @@ public partial class PlayerController : CharacterBody3D
 
         velocity.X = horizontalVelocity.X;
         velocity.Z = horizontalVelocity.Y;
+    }
 
+    private void GravityModifier(ref Vector3 velocity, double delta)
+    {
         if (!IsOnFloor())
         {
             Vector3 gravity = GetGravity();
@@ -112,25 +139,15 @@ public partial class PlayerController : CharacterBody3D
                 if (_jumpRelease)
                 {
                     _gravityMultiplier = FallGravityMultiplier;
-                } 
-                else
+                } else
                 {
                     _gravityMultiplier = JumpGravityMultiplier;
                 }
-            } 
-            else
+            } else
             {
                 _gravityMultiplier = FallGravityMultiplier;
             }
             velocity += gravity * _gravityMultiplier * (float)delta;
         }
-
-        Velocity = velocity;
-		MoveAndSlide();
-	}
-
-	private void Jump(ref Vector3 velocity)
-	{
-        velocity.Y = JumpVelocity;
     }
 }
