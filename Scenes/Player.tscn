@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://brm3xw2ishlo8" path="res://Scripts/PlayerCamera.cs" id="2_kyqiw"]
 [ext_resource type="PackedScene" uid="uid://cy36aygvs66pn" path="res://Assets/gdquest_gobot/gobot_skin.tscn" id="3_gntrk"]
 [ext_resource type="Script" uid="uid://b2ic6c4mi2762" path="res://Scripts/AnimationController.cs" id="4_dewec"]
-[ext_resource type="Script" uid="uid://xur10b0l8nt0" path="res://Scenes/SizeEffect.cs" id="5_5ixxa"]
+[ext_resource type="Script" uid="uid://xur10b0l8nt0" path="res://Scripts/AbilityResize.cs" id="5_5ixxa"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0rwas"]
 height = 1.4088745
@@ -13,8 +13,9 @@ height = 1.4088745
 script = ExtResource("1_xhfnw")
 Camera = NodePath("PlayerCamera/Camera3D")
 Model = NodePath("GobotSkin")
-Acceleration = 20.0
-Deceleration = 50.0
+MaxSpeed = 6.0
+AirAcceleration = 10.0
+AirDeceleration = 8.0
 JumpVelocity = 10.0
 JumpGravityMultiplier = 1.0
 FallGravityMultiplier = 2.0
@@ -41,7 +42,7 @@ script = ExtResource("4_dewec")
 Player = NodePath("..")
 Model = NodePath("../GobotSkin")
 
-[node name="SizeEffect" type="Node" parent="." unique_id=30774667 node_paths=PackedStringArray("PlayerController", "CollisionShape", "Camera")]
+[node name="Ability" type="Node" parent="." unique_id=30774667 node_paths=PackedStringArray("PlayerController", "CollisionShape", "Camera")]
 script = ExtResource("5_5ixxa")
 PlayerController = NodePath("..")
 CollisionShape = NodePath("../CollisionShape3D")

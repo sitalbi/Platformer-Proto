@@ -20,10 +20,19 @@ public partial class PlayerController : CharacterBody3D
     public float MaxSpeed = 5.0f;
 
     [Export]
-    public float Acceleration = 15.0f;
+    public float GroundedAcceleration = 15.0f;
 
     [Export]
-    public float Deceleration = 15.0f;
+    public float GroundedTurnAcceleration = 30.0f;
+
+    [Export]
+    public float GroundedDeceleration = 15.0f;
+
+    [Export]
+    public float AirAcceleration = 6.0f;
+
+    [Export]
+    public float AirDeceleration = 2.0f;
 
     [Export]
     public float JumpVelocity { get; set; }
@@ -73,7 +82,15 @@ public partial class PlayerController : CharacterBody3D
             _jumpBufferTimer = 0.0f;
         }
 
-        GroundedMovement(ref velocity, delta);
+
+        Vector3 direction = GetMovementDirection();
+        if (IsOnFloor())
+        {
+            GroundedMovement(ref velocity, direction, delta);
+        } else
+        {
+            AirMovement(ref velocity, direction, delta);
+        }
 
         GravityModifier(ref velocity, delta);
 
@@ -87,18 +104,8 @@ public partial class PlayerController : CharacterBody3D
     }
 
 
-    private void GroundedMovement(ref Vector3 velocity, double delta)
+    private void GroundedMovement(ref Vector3 velocity, Vector3 direction, double delta)
     {
-        Vector3 forward = -Camera.GlobalBasis.Z;
-        Vector3 right = Camera.GlobalBasis.X;
-
-        forward.Y = 0;
-        right.Y = 0;
-
-        forward = forward.Normalized();
-        right = right.Normalized();
-
-        Vector3 direction = (right * _inputDir.X + forward * -_inputDir.Y).Normalized();
 
         Vector2 horizontalVelocity = new Vector2(velocity.X, velocity.Z);
 
@@ -106,7 +113,19 @@ public partial class PlayerController : CharacterBody3D
 
         if (direction != Vector3.Zero)
         {
-            horizontalVelocity = horizontalVelocity.MoveToward(targetVelocity, Acceleration * (float)delta);
+            Vector2 currentDir = horizontalVelocity.Normalized();
+            Vector2 desiredDir = new Vector2(direction.X, direction.Z).Normalized();
+
+            float alignment = currentDir.Dot(desiredDir);
+
+            float acceleration = GroundedAcceleration;
+
+            if (horizontalVelocity.Length() > 0.1f && alignment < 0.0f)
+            {
+                acceleration = GroundedTurnAcceleration;
+            }
+
+            horizontalVelocity = horizontalVelocity.MoveToward(targetVelocity, acceleration * (float)delta);
 
             float targetYaw = Mathf.Atan2(direction.X, direction.Z);
 
@@ -122,10 +141,42 @@ public partial class PlayerController : CharacterBody3D
         } 
         else
         {
-            horizontalVelocity = horizontalVelocity.MoveToward(targetVelocity, Deceleration * (float)delta);
+            horizontalVelocity = horizontalVelocity.MoveToward(targetVelocity, GroundedDeceleration * (float)delta);
         }
 
         velocity.X = horizontalVelocity.X;
+        velocity.Z = horizontalVelocity.Y;
+    }
+
+    private void AirMovement(ref Vector3 velocity, Vector3 direction, double delta)
+    {
+        Vector2 horizontalVelocity = new Vector2(velocity.X, velocity.Z);
+
+        Vector2 targetVelocity = new Vector2(direction.X * MaxSpeed, direction.Z * MaxSpeed);
+        
+        horizontalVelocity = horizontalVelocity.MoveToward(targetVelocity, AirAcceleration * (float)delta);
+
+        float targetYaw = Mathf.Atan2(direction.X, direction.Z);
+
+        if(direction == Vector3.Zero)
+        {
+            horizontalVelocity = horizontalVelocity.MoveToward(Vector2.Zero, AirDeceleration * (float)delta);
+        }
+        else
+        {
+            Vector3 modelRotation = Model.Rotation;
+
+            modelRotation.Y = Mathf.LerpAngle(
+                modelRotation.Y,
+                targetYaw,
+                TurnSpeed * (float)delta
+            );
+
+            Model.Rotation = modelRotation;
+        }
+
+
+            velocity.X = horizontalVelocity.X;
         velocity.Z = horizontalVelocity.Y;
     }
 
@@ -149,5 +200,19 @@ public partial class PlayerController : CharacterBody3D
             }
             velocity += gravity * _gravityMultiplier * (float)delta;
         }
+    }
+
+    private Vector3 GetMovementDirection()
+    {
+        Vector3 forward = -Camera.GlobalBasis.Z;
+        Vector3 right = Camera.GlobalBasis.X;
+
+        forward.Y = 0;
+        right.Y = 0;
+
+        forward = forward.Normalized();
+        right = right.Normalized();
+
+        return (right * _inputDir.X + forward * -_inputDir.Y).Normalized();
     }
 }

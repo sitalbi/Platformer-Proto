@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class SizeEffect : Node
+public partial class AbilityResize : Node
 {
 	[Export]
 	public PlayerController PlayerController;
