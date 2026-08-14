@@ -33,6 +33,8 @@ public partial class AbilityResize : Node
     private Vector3 _originalModelScale;
     private float _originalMaxSpeed;
     private float _originalJumpVelocity;
+    private float _originalJumpGravityMultiplier;
+    private float _originalFallGravityMultiplier;
 
     private float _originalCapsuleHeight;
     private float _originalCapsuleRadius;
@@ -49,6 +51,8 @@ public partial class AbilityResize : Node
         _originalModelScale = PlayerController.Model.Scale;
         _originalMaxSpeed = PlayerController.MaxSpeed;
         _originalJumpVelocity = PlayerController.JumpVelocity;
+        _originalJumpGravityMultiplier = PlayerController.JumpGravityMultiplier;
+        _originalFallGravityMultiplier = PlayerController.FallGravityMultiplier;
 
         _capsule = CollisionShape.Shape as CapsuleShape3D;
 
@@ -64,12 +68,17 @@ public partial class AbilityResize : Node
 	{
         if (Input.IsActionJustPressed("effect"))
         {
-            if(isMini)
+
+            GD.Print("isMini " + isMini);
+            if (isMini)
             {
+
                 PlayerController.Model.Scale = _originalModelScale;
                 PlayerController.MaxSpeed = _originalMaxSpeed;
 
                 PlayerController.JumpVelocity = _originalJumpVelocity;
+                PlayerController.JumpGravityMultiplier = _originalJumpGravityMultiplier;
+                PlayerController.FallGravityMultiplier = _originalFallGravityMultiplier;
 
                 _capsule.Height = _originalCapsuleHeight;
                 _capsule.Radius = _originalCapsuleRadius;
@@ -86,7 +95,9 @@ public partial class AbilityResize : Node
                 PlayerController.Model.Scale = _originalModelScale * scale;
                 PlayerController.MaxSpeed = _originalMaxSpeed * 1.0f / MiniSpeedMultiplier;
 
-                PlayerController.JumpVelocity = _originalMaxSpeed * Mathf.Sqrt(1.0f /MiniJumpMultiplier);
+                PlayerController.JumpVelocity = _originalJumpVelocity * Mathf.Sqrt(1.0f /MiniJumpMultiplier);
+                PlayerController.JumpGravityMultiplier = _originalJumpGravityMultiplier * Mathf.Sqrt(1.0f /MiniJumpMultiplier);
+                PlayerController.FallGravityMultiplier = _originalFallGravityMultiplier * Mathf.Sqrt(1.0f /MiniJumpMultiplier);
 
                 _capsule.Height = _originalCapsuleHeight * scale;
                 _capsule.Radius = _originalCapsuleRadius * scale;
