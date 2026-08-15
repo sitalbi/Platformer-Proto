@@ -7,7 +7,7 @@ The project focuses on character-controller programming, movement feel, camera b
 The goal is to build responsive 3D platforming mechanics from a gameplay-programming perspective, while iterating on movement parameters and progressively introducing new mechanics and player states.
 
 <p align="center">
- <img src="https://simono.fr/images/platformer.png" width="650">
+ <img src="/res/screenshots/platformer.gif" width="650">
 </p>
 
 ## Features
