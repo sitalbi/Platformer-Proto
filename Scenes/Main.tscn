@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://bpmrvciu2q13f"]
 
 [ext_resource type="PackedScene" uid="uid://wkcam2kuolhf" path="res://Scenes/Player.tscn" id="1_glv2v"]
-[ext_resource type="Texture2D" uid="uid://bhbljxno8c5tl" path="res://Assets/Textures/PNG/Green/texture_08.png" id="2_rgh2o"]
-[ext_resource type="Texture2D" uid="uid://bvnt8c8dtk4hm" path="res://Assets/Textures/Vector/texture_08.svg" id="3_kln2b"]
+[ext_resource type="Texture2D" uid="uid://bhbljxno8c5tl" path="res://addons/Textures/PNG/Green/texture_08.png" id="2_rgh2o"]
+[ext_resource type="Texture2D" uid="uid://bvnt8c8dtk4hm" path="res://addons/Textures/Vector/texture_08.svg" id="3_kln2b"]
 [ext_resource type="PackedScene" uid="uid://juldyd2vvjuu" path="res://Scenes/MovingPlatform.tscn" id="4_rgh2o"]
 [ext_resource type="PackedScene" uid="uid://c5ei4l6jordny" path="res://Scenes/InteractablePack.tscn" id="5_pbw6q"]
 

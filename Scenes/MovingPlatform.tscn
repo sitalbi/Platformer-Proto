@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://juldyd2vvjuu"]
 
 [ext_resource type="Script" uid="uid://cgk7houuk4ptu" path="res://Scripts/MovingPlatform.cs" id="1_k502f"]
-[ext_resource type="Texture2D" uid="uid://crf0d2eh0eukf" path="res://Assets/Textures/PNG/Green/texture_05.png" id="2_5olv3"]
+[ext_resource type="Texture2D" uid="uid://crf0d2eh0eukf" path="res://addons/Textures/PNG/Green/texture_05.png" id="2_5olv3"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5olv3"]
 albedo_texture = ExtResource("2_5olv3")
