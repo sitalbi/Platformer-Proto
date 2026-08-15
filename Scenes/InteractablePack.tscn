@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://c5ei4l6jordny"]
+
+[ext_resource type="Script" uid="uid://08e6qin6o0cm" path="res://Scripts/InteractablePack.cs" id="1_pjjt5"]
+[ext_resource type="PackedScene" uid="uid://cqpnn4xnkfs4u" path="res://Scenes/Interactable.tscn" id="2_du6ho"]
+
+[node name="InteractablePack" type="Node3D" unique_id=1683917831]
+script = ExtResource("1_pjjt5")
+Interactable = ExtResource("2_du6ho")

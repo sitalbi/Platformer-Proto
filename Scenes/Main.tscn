@@ -3,6 +3,8 @@
 [ext_resource type="PackedScene" uid="uid://wkcam2kuolhf" path="res://Scenes/Player.tscn" id="1_glv2v"]
 [ext_resource type="Texture2D" uid="uid://bhbljxno8c5tl" path="res://Assets/Textures/PNG/Green/texture_08.png" id="2_rgh2o"]
 [ext_resource type="Texture2D" uid="uid://bvnt8c8dtk4hm" path="res://Assets/Textures/Vector/texture_08.svg" id="3_kln2b"]
+[ext_resource type="PackedScene" uid="uid://juldyd2vvjuu" path="res://Scenes/MovingPlatform.tscn" id="4_rgh2o"]
+[ext_resource type="PackedScene" uid="uid://c5ei4l6jordny" path="res://Scenes/InteractablePack.tscn" id="5_pbw6q"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r150o"]
 albedo_texture = ExtResource("2_rgh2o")
@@ -17,6 +19,12 @@ albedo_texture = ExtResource("2_rgh2o")
 albedo_texture = ExtResource("3_kln2b")
 uv1_scale = Vector3(10, 10, 10)
 
+[sub_resource type="BoxMesh" id="BoxMesh_am7si"]
+size = Vector3(2.362671, 1.5001221, 0.060058594)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_68pkx"]
+size = Vector3(2.3370361, 1.5025024, 0.0637207)
+
 [sub_resource type="Environment" id="Environment_68pkx"]
 background_mode = 1
 background_color = Color(0.62770736, 0.8564594, 1, 1)
@@ -24,8 +32,6 @@ background_color = Color(0.62770736, 0.8564594, 1, 1)
 [node name="Main" type="Node3D" unique_id=1120077154]
 
 [node name="Player" parent="." unique_id=1914360714 instance=ExtResource("1_glv2v")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.40322495, 1.6694959, 0.25618863)
-JumpVelocity = 8.0
 
 [node name="Environment" type="Node3D" parent="." unique_id=72519396]
 
@@ -65,7 +71,68 @@ mesh = SubResource("BoxMesh_68pkx")
 shape = SubResource("BoxShape3D_kln2b")
 
 [node name="MiniDoor" type="CSGTorus3D" parent="Environment" unique_id=686020177]
-transform = Transform3D(0.461, 0, 0, 0, -2.6226834e-08, -0.461, 0, 0.6, -2.015095e-08, -4.1176934, 0.0792017, -6.985938)
+transform = Transform3D(0.461, 0, 0, 0, -2.6226834e-08, -0.461, 0, 0.6, -2.015095e-08, -3.047697, 0.13245273, -9.382564)
+use_collision = true
+
+[node name="MovingPlatform" parent="Environment" unique_id=592144248 instance=ExtResource("4_rgh2o")]
+transform = Transform3D(1.5, 0, 0, 0, 1, 0, 0, 0, 1.5, -6.284, 0.11, -6.932)
+Speed = 0.5
+EndOffset = Vector3(0, 5, 0)
+
+[node name="MovingPlatform2" parent="Environment" unique_id=1682062648 instance=ExtResource("4_rgh2o")]
+transform = Transform3D(1.5, 0, 0, 0, 1, 0, 0, 0, 1.5, -9.709, 10, -6.932)
+Speed = 0.5
+EndOffset = Vector3(0, -5, 0)
+
+[node name="InteractablePack" parent="Environment" unique_id=1516504151 instance=ExtResource("5_pbw6q")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.568369, 2.2011375, 1.3150291)
+
+[node name="SandBox" type="Node3D" parent="Environment" unique_id=1697213026]
+transform = Transform3D(2.5, 0, 0, 0, 2.5, 0, 0, 0, 2.5, -15.6152935, -1.2632885, 0)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Environment/SandBox" unique_id=713069598]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6821358, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/SandBox/StaticBody3D" unique_id=1612433244]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6633301, 0.25006104, -0.4699707)
+mesh = SubResource("BoxMesh_am7si")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/SandBox/StaticBody3D" unique_id=421735895]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6503906, 0.25125122, -0.47058105)
+shape = SubResource("BoxShape3D_68pkx")
+
+[node name="StaticBody3D2" type="StaticBody3D" parent="Environment/SandBox" unique_id=1278584126]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -0.64580154, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/SandBox/StaticBody3D2" unique_id=527832318]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6633301, 0.25006104, -0.4699707)
+mesh = SubResource("BoxMesh_am7si")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/SandBox/StaticBody3D2" unique_id=199803309]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6503906, 0.25125122, -0.47058105)
+shape = SubResource("BoxShape3D_68pkx")
+
+[node name="StaticBody3D3" type="StaticBody3D" parent="Environment/SandBox" unique_id=1297354095]
+transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 0.713, 0, 1.327)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/SandBox/StaticBody3D3" unique_id=1970779834]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6633301, 0.25006104, -0.4699707)
+mesh = SubResource("BoxMesh_am7si")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/SandBox/StaticBody3D3" unique_id=1608646525]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6503906, 0.25125122, -0.47058105)
+shape = SubResource("BoxShape3D_68pkx")
+
+[node name="StaticBody3D4" type="StaticBody3D" parent="Environment/SandBox" unique_id=2057576476]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -0.6103246, 0, 1.3640707)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/SandBox/StaticBody3D4" unique_id=1577185564]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6453247, 0.25006104, -0.4699707)
+mesh = SubResource("BoxMesh_am7si")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/SandBox/StaticBody3D4" unique_id=1008162910]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6322632, 0.25125122, -0.47058105)
+shape = SubResource("BoxShape3D_68pkx")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=100298401]
 transform = Transform3D(1, 0, 0, 0, 0.78372794, 0.62110424, 0, -0.62110424, 0.78372794, 0, 6.220585, 4.999535)

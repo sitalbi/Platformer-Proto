@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://juldyd2vvjuu"]
+
+[ext_resource type="Script" uid="uid://cgk7houuk4ptu" path="res://Scripts/MovingPlatform.cs" id="1_k502f"]
+[ext_resource type="Texture2D" uid="uid://crf0d2eh0eukf" path="res://Assets/Textures/PNG/Green/texture_05.png" id="2_5olv3"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5olv3"]
+albedo_texture = ExtResource("2_5olv3")
+
+[sub_resource type="BoxMesh" id="BoxMesh_68pkx"]
+material = SubResource("StandardMaterial3D_5olv3")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_68pkx"]
+size = Vector3(1, 0.1260376, 1)
+
+[node name="MovingPlatform" type="StaticBody3D" unique_id=592144248]
+script = ExtResource("1_k502f")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1030109460]
+transform = Transform3D(1, 0, 0, 0, 0.1, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("BoxMesh_68pkx")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1122520984]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.00039672852, 0)
+shape = SubResource("BoxShape3D_68pkx")

@@ -7,7 +7,7 @@
 [ext_resource type="Script" uid="uid://xur10b0l8nt0" path="res://Scripts/AbilityResize.cs" id="5_5ixxa"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0rwas"]
-height = 1.4088745
+height = 1.2547302
 
 [node name="Player" type="Node" unique_id=1322742571]
 
@@ -21,7 +21,7 @@ GroundedTurnAcceleration = 50.0
 GroundedDeceleration = 35.0
 AirAcceleration = 10.0
 AirDeceleration = 8.0
-JumpVelocity = 8.0
+JumpVelocity = 7.5
 JumpGravityMultiplier = 0.75
 FallGravityMultiplier = 3.0
 JumpBufferDuration = 0.25
@@ -30,7 +30,7 @@ JumpBufferDuration = 0.25
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PlayerCharacter" unique_id=594490459]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7117835, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6347114, 0)
 shape = SubResource("CapsuleShape3D_0rwas")
 
 [node name="Ability" type="Node" parent="PlayerCharacter" unique_id=30774667 node_paths=PackedStringArray("PlayerController", "CollisionShape", "Camera")]
@@ -56,9 +56,9 @@ Camera = NodePath("Camera3D")
 Distance = 6.0
 Height = 1.5
 ZoomTransitionSpeed = 10.0
-VerticalTransitionSpeed = 4.0
+VerticalFollowSpeed = 4.0
 TargetScreenY = 0.55
-VerticalDeadzonePixels = 80.0
+VerticalDeadzonePixels = 85.0
 
 [node name="Camera3D" type="Camera3D" parent="PlayerCamera" unique_id=1997969538]
 current = true
